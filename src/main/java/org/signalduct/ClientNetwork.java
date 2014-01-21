@@ -8,7 +8,7 @@ public class ClientNetwork {
         // TODO: Implement
     }
 
-    public Connection connect(String localhost, int port) {
+    public Connection connectToServer(String localhost, int port) {
         // TODO: Implement
         return new ConnectionToServer();
     }

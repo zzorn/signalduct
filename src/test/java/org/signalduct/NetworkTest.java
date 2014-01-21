@@ -11,31 +11,31 @@ public class NetworkTest {
 
     private static final int PORT = 87654;
     private static final String LOCALHOST = "localhost";
-    private MockConnectionListener serverListener;
-    private MockConnectionListener clientListener;
+    private MockConnectionListener listenerOnServer;
+    private MockConnectionListener listenerOnClient;
 
     @Before
     public void setUp() throws Exception {
-        serverListener = new MockConnectionListener();
-        clientListener = new MockConnectionListener();
+        listenerOnServer = new MockConnectionListener("listener on server");
+        listenerOnClient = new MockConnectionListener("listener on client");
     }
 
     @Test
     public void testConnect() throws Exception {
-        ClientNetwork clientNetwork = new ClientNetwork(clientListener);
-        ServerNetwork serverNetwork = new ServerNetwork(PORT, serverListener);
+        ClientNetwork clientNetwork = new ClientNetwork(listenerOnClient);
+        ServerNetwork serverNetwork = new ServerNetwork(PORT, listenerOnServer);
 
-        serverListener.assertReceivedNoEvents();
-        clientListener.assertReceivedNoEvents();
+        listenerOnServer.assertReceivedNoEvents();
+        listenerOnClient.assertReceivedNoEvents();
 
         serverNetwork.startAcceptingConnections();
 
-        Connection connection = clientNetwork.connect(LOCALHOST, PORT);
-        connection.waitUntilConnected(1000);
+        Connection connectionToServer = clientNetwork.connectToServer(LOCALHOST, PORT);
+        connectionToServer.waitUntilConnected(1000);
 
-        serverListener.assertReceivedEventsAre(CONNECTED);
-        clientListener.assertReceivedEventsAre(CONNECTED);
-        assertTrue(connection.isConnected());
+        listenerOnServer.assertReceivedEventsAre(CONNECTED);
+        listenerOnClient.assertReceivedEventsAre(CONNECTED);
+        assertTrue(connectionToServer.isConnected());
     }
 
 

@@ -13,12 +13,13 @@ import static org.signalduct.MockConnectionListener.ConnectionEvent.*;
  * Used for testing purposes.
  */
 public class MockConnectionListener implements ConnectionListener {
+
+    private final String listenerName;
+
+    private EnumSet<ConnectionEvent> receivedEvents = EnumSet.noneOf(ConnectionEvent.class);
     private Object message;
     private String errorType;
     private String errorMessage;
-
-    private EnumSet<ConnectionEvent> receivedEvents = EnumSet.noneOf(
-            ConnectionEvent.class);
 
     /**
      * Enum used to describe the different events that a ConnectionListener can receive.
@@ -35,7 +36,9 @@ public class MockConnectionListener implements ConnectionListener {
     }
 
 
-    public MockConnectionListener() {
+    public MockConnectionListener(String listenerName) {
+        this.listenerName = listenerName;
+
         reset();
     }
 
@@ -54,7 +57,7 @@ public class MockConnectionListener implements ConnectionListener {
      */
     public void assertMessage(Object expectedMessage) {
         assertReceivedEventsContain(MESSAGE);
-        Assert.assertEquals("Message should be correct", expectedMessage, message);
+        Assert.assertEquals("Message should be correct in " + listenerName, expectedMessage, message);
     }
 
     /**
@@ -62,7 +65,7 @@ public class MockConnectionListener implements ConnectionListener {
      */
     public void assertError(String expectedErrorType) {
         assertReceivedEventsContain(ERROR);
-        Assert.assertEquals("Error type should be correct", expectedErrorType, errorType);
+        Assert.assertEquals("Error type should be correct in " + listenerName, expectedErrorType, errorType);
     }
 
     /**
@@ -101,12 +104,9 @@ public class MockConnectionListener implements ConnectionListener {
         return expectedState;
     }
 
-    private void assertEventAsExpected(ConnectionEvent event,
-                                       boolean expectedState) {
+    private void assertEventAsExpected(ConnectionEvent event, boolean expectedState) {
 
-        final String message = event.getDisplayName() + " event " +
-                               (expectedState ? "should have been received" :
-                                "should not have been received");
+        final String message = listenerName + " should "+(expectedState ? "" : "not ")+"have received a " + event.getDisplayName() + " event";
 
         final boolean actualState = receivedEvents.contains(event);
 
