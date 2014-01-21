@@ -3,6 +3,8 @@ package org.signalduct;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.InetSocketAddress;
+
 import static org.junit.Assert.*;
 import static org.signalduct.MockConnectionListener.ConnectionEvent.*;
 
@@ -11,6 +13,7 @@ public class NetworkTest {
 
     private static final int PORT = 87654;
     private static final String LOCALHOST = "localhost";
+    private static final InetSocketAddress SERVER_LOCALHOST_ADDRESS = new InetSocketAddress(LOCALHOST, PORT);
     private static final int TIMEOUT_MILLISECONDS = 1000;
 
     private MockConnectionListener listenerOnServer;
@@ -35,7 +38,7 @@ public class NetworkTest {
 
         serverNetwork.startAcceptingConnections();
 
-        Connection connectionToServer = clientNetwork.connectToServer(LOCALHOST, PORT);
+        Connection connectionToServer = clientNetwork.startConnectingTo(SERVER_LOCALHOST_ADDRESS);
         connectionToServer.waitUntilConnected(TIMEOUT_MILLISECONDS);
 
         listenerOnServer.assertReceivedEventsAre(CONNECTED);

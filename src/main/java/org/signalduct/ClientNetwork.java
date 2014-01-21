@@ -1,5 +1,7 @@
 package org.signalduct;
 
+import java.net.InetSocketAddress;
+
 /**
  *
  */
@@ -8,7 +10,7 @@ public class ClientNetwork {
         // TODO: Implement
     }
 
-    public Connection connectToServer(String localhost, int port) {
+    public Connection startConnectingTo(InetSocketAddress address) throws NetworkException {
         // TODO: Implement
         return new ConnectionToServer();
     }
