@@ -1,9 +1,11 @@
-package org.signalduct;
+package org.signalduct.impl;
+
+import org.signalduct.utils.ExceptionBase;
 
 /**
  * Indicates that there was some problem with the network.
  */
-public class NetworkException extends Exception {
+public class NetworkException extends ExceptionBase {
 
     public NetworkException() {
     }

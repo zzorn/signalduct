@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.flowutils</groupId>
             <artifactId>flowutils</artifactId>
-            <version>0.1.11</version>
+            <version>0.1.13</version>
         </dependency>
 
 
@@ -74,7 +74,7 @@
 
     <scm>
         <url>https://github.com/zzorn/signalduct</url>
-        <developerConnection>scm:git:git@github.com:zzorn/signalduct.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/zzorn/signalduct.git</developerConnection>
     </scm>
 
     <distributionManagement>

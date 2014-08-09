@@ -1,19 +1,47 @@
 package org.signalduct;
 
+
 /**
- *
+ * Represents a network connection between a client and server.
  */
 public interface Connection {
 
     /**
-     * Blocks until the connection is established, or the specified timeout is reached.
-     * @param timeoutMilliseconds max number of milliseconds to wait for the connection to complete
-     * @throws NetworkException if a connection could not be established within the timeout, or if there was some other problem.
+     * @param listener listener that is notified about received messages and status changes.
      */
-    void waitUntilConnected(int timeoutMilliseconds) throws NetworkException;
+    void addListener(ConnectionListener listener);
 
     /**
-     * @return true if we are currently connected.
+     * @param listener listener to remove
      */
-    boolean isConnected();
+    void removeListener(ConnectionListener listener);
+
+
+    /**
+     * Send a message object to the connected network.
+     */
+    void sendMessage(Object message);
+
+
+    /**
+     * Stop the connection.
+     */
+    void disconnect();
+
+
+    /**
+     * Store some custom data with the connection.
+     */
+    void setCustomData(String name, Object data);
+
+    /**
+     * @return previously stored custom data.  null if not found.
+     */
+    <T> T getCustomData(String name);
+
+    /**
+     * @return previously stored custom data.  defaultValue if not found.
+     */
+    <T> T getCustomData(String name, T defaultValue);
+
 }

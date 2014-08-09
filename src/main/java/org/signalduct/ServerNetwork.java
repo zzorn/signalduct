@@ -1,15 +1,16 @@
 package org.signalduct;
 
 /**
- *
+ * Server side network interface.
  */
-public class ServerNetwork {
+public interface ServerNetwork extends Network {
 
-    public ServerNetwork(int port, ConnectionListener connectionListener) {
-        // TODO: Implement
-    }
+    /**
+     * Bind to the specified port and listen for incoming connections.
+     *
+     * @param newConnectionListener handler that is notified when new clients connect.
+     *                              It should do any necessary initialization or listener addition for them.
+     */
+    void bind(int port, NewConnectionListener newConnectionListener);
 
-    public void startAcceptingConnections() {
-        // TODO: Implement
-    }
 }

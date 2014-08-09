@@ -1,6 +1,5 @@
 package org.signalduct;
 
-import org.flowutils.Strings;
 import org.junit.Assert;
 
 import java.util.Collections;

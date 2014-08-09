@@ -2,6 +2,8 @@ package org.signalduct;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.signalduct.impl.ClientNetwork;
+import org.signalduct.impl.ServerNetwork;
 
 import java.net.InetSocketAddress;
 
@@ -11,7 +13,7 @@ import static org.signalduct.MockConnectionListener.ConnectionEvent.*;
 
 public class NetworkTest {
 
-    private static final int PORT = 87654;
+    private static final int PORT = 8765;
     private static final String LOCALHOST = "localhost";
     private static final InetSocketAddress SERVER_LOCALHOST_ADDRESS = new InetSocketAddress(LOCALHOST, PORT);
     private static final int TIMEOUT_MILLISECONDS = 1000;
@@ -26,7 +28,7 @@ public class NetworkTest {
 
         listenerOnServer = new MockConnectionListener("listener on server");
         listenerOnClient = new MockConnectionListener("listener on client");
-        clientNetwork = new ClientNetwork(listenerOnClient);
+        clientNetwork = new ClientNetwork();
         serverNetwork = new ServerNetwork(PORT, listenerOnServer);
 
         listenerOnServer.assertReceivedNoEvents();
@@ -36,10 +38,12 @@ public class NetworkTest {
     @Test
     public void testConnect() throws Exception {
 
-        serverNetwork.startAcceptingConnections();
+        serverNetwork.start();
 
-        Connection connectionToServer = clientNetwork.startConnectingTo(SERVER_LOCALHOST_ADDRESS);
-        connectionToServer.waitUntilConnected(TIMEOUT_MILLISECONDS);
+        Connection connectionToServer = clientNetwork.connectTo(SERVER_LOCALHOST_ADDRESS, listenerOnClient);
+
+        // TODO: Remove sleep:
+        Thread.sleep(1000);
 
         listenerOnServer.assertReceivedEventsAre(CONNECTED);
         listenerOnClient.assertReceivedEventsAre(CONNECTED);

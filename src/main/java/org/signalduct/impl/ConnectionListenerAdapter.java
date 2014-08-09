@@ -1,4 +1,7 @@
-package org.signalduct;
+package org.signalduct.impl;
+
+import org.signalduct.Connection;
+import org.signalduct.ConnectionListener;
 
 /**
  *
